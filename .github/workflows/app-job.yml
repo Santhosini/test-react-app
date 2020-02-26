@@ -6,7 +6,7 @@ on:
       - master
 
 jobs:
-  App job:
+  AppJob:
 
     runs-on: macos-latest
     steps:
