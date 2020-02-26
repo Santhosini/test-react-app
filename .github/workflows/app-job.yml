@@ -6,9 +6,9 @@ on:
       - master
 
 jobs:
-  AppJob:
+  Metrics:
+    runs-on: self-hosted
 
-    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
