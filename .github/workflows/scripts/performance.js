@@ -3,25 +3,18 @@ const chromeLauncher = require('chrome-launcher');
 const lighthouse = require('lighthouse');
 const github = require('@actions/github');
 
-let { payload, actor } = github.context;
+let { payload, actor: owner } = github.context;
 let { number, repository } = payload || {};
-
-console.log('number', number)
-console.log('actor', actor)
-console.log('repo name', repository.name)
-
+let repoName = repository.name;
 
 // const inputSecret = core.getInput('secret');
 // console.log('inputSecret', inputSecret)
 
 const { secret, surgeUrl } = process.env;
+const octokit = new github.GitHub(secret);
+
 
 const WIDGET_PERFORMANCE_TITLE = 'Widget Performance measurement';
-
-let owner =  "";
-let repo = "";
-
-
 
 const TRACK_STATUS = {
   fcp: 'first-contentful-paint',
@@ -118,8 +111,8 @@ Widget Measurement Report is taken using lighthouse
 
 function createNewComment(comment) {
   octokit.issues.createComment({
-    owner: actor,
-    repo: repository.name,
+    owner,
+    repo: repoName,
     issue_number: number,
     body: comment,
   }).then(data => console.log('comment added')).catch(err => {
@@ -128,26 +121,24 @@ function createNewComment(comment) {
   });
 }
 
-function updateComment(comment, id) {
+function updateComment(comment, comment_id) {
   octokit.issues.updateComment({
-    owner: actor,
-    repo: repository.name,
-    comment_id: id,
+    owner,
+    repo: repoName,
+    comment_id,
     body: comment
-  }).then(data => console.log('comment added')).catch(err => {
+  }).then(data => console.log('comment updated')).catch(err => {
     console.log('octokit issue create comment error', err);
     process.exit();
   });
 }
 
 function postResultComment (comment) {
-  const octokit = new github.GitHub(secret);
   octokit.issues.listComments({
-    owner: actor,
-    repo: repository.name,
+    owner,
+    repo: repoName,
     issue_number: number
   }).then((result) => {
-    console.log('success listCommentsIssue 3', result)
     let { data } = result;
     console.log('data.length', data.length);
     if (data && data.length) {
