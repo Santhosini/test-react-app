@@ -3,9 +3,10 @@ const chromeLauncher = require('chrome-launcher');
 const lighthouse = require('lighthouse');
 const github = require('@actions/github');
 
-let { payload, actor: owner } = github.context;
+let { payload } = github.context;
 let { number, repository } = payload || {};
 let repoName = repository.name;
+let owner = repository.owner.login;
 
 const { secret, surgeUrl } = process.env;
 const octokit = new github.GitHub(secret);
