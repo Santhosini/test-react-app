@@ -6,7 +6,12 @@ const core = require('@actions/core');
 const fetch = require('node-fetch');
 
 let { payload, actor } = github.context;
-let { number } = payload || {};
+let { number, repository } = payload || {};
+
+console.log('number', number)
+console.log('actor', actor)
+console.log('repo name', repository.name)
+
 
 // const inputSecret = core.getInput('secret');
 // console.log('inputSecret', inputSecret)
@@ -144,34 +149,34 @@ function updateComment(comment) {
 function postResultComment (comment) {
   const octokit = new github.GitHub(secret);
   // console.log('test github context', JSON.stringify(github.context, null, 4))
-  console.log('test github context payload', JSON.stringify(github.context.payload, null, 4))
-  // octokit.issues.listComments({
-  //   owner,
-  //   repo,
-  //   issue_number: 3
-  // }).then((result) => {
-  //   console.log('success listCommentsIssue 3', result)
-  //   let { data } = result;
-  //   console.log('data.length', data.length);
-  //   if (data && data.length) {
-  //     let filteredData = data.filter(comment => {
-  //       return comment.body.indexOf(WIDGET_PERFORMANCE_TITLE) != -1;
-  //     });
-  //     console.log('filteredData', filteredData)
-  //   }
-  // }).catch(e => console.log('error listCommentsIssue', e));
-  if (github.context.payload.pull_request.comments_url && secret) {
-    fetch(github.context.payload.pull_request.comments_url, {
-      method: 'post',
-      body: JSON.stringify({
-        body: comment,
-      }),
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${secret}`,
-      },
-    }).then(data => console.log('success upload', data)).catch(e => console.log('error listCommentsIssue', e));
-  }
+  // console.log('test github context payload', JSON.stringify(github.context.payload, null, 4))
+  octokit.issues.listComments({
+    owner: actor,
+    repo: repository.name,
+    issue_number: number
+  }).then((result) => {
+    console.log('success listCommentsIssue 3', result)
+    let { data } = result;
+    console.log('data.length', data.length);
+    if (data && data.length) {
+      let filteredData = data.filter(comment => {
+        return comment.body.indexOf(WIDGET_PERFORMANCE_TITLE) != -1;
+      });
+      console.log('filteredData', filteredData)
+    }
+  }).catch(e => console.log('error listCommentsIssue', e));
+  // if (github.context.payload.pull_request.comments_url && secret) {
+  //   fetch(github.context.payload.pull_request.comments_url, {
+  //     method: 'post',
+  //     body: JSON.stringify({
+  //       body: comment,
+  //     }),
+  //     headers: {
+  //       'content-type': 'application/json',
+  //       authorization: `Bearer ${secret}`,
+  //     },
+  //   }).then(data => console.log('success upload', data)).catch(e => console.log('error listCommentsIssue', e));
+  // }
   
 }
 
