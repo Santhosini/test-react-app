@@ -30,7 +30,7 @@ jobs:
         run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Performance instalation
-        run: npm i puppeteer && npm install lighthouse && npm install @actions/github
+        run: npm i puppeteer && npm i lighthouse && npm i @actions/github
 
       - name: performance
         env:
