@@ -17,8 +17,14 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.1'
-      - run: npm install && npm build && npm install --save-dev surge && surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
-        
+      - name: Install Dependencies
+        run: npm install && npm build
+
+      - name: Install surge
+        run: npm install --save-dev surge
+
+      - name: Surge deploy
+        run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
 
 #     strategy:
