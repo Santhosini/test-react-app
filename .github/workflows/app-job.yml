@@ -17,6 +17,11 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: '10.1'
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Surge build
+        run: npm surge
 
 #     strategy:
 #       matrix:
