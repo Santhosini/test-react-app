@@ -18,13 +18,16 @@ jobs:
         with:
           node-version: '10.1'
       - name: Install Dependencies
-        run: npm install && npm build
+        run: npm install
+      
+      - name: run build
+        run: npm run-script build
 
       - name: Install surge
         run: npm install -g surge
 
       - name: Surge deploy
-        run: surge ./build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+        run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
 
 #     strategy:
