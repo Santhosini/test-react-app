@@ -13,7 +13,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "surge": "react-scripts build && surge -p build/ --domain testttt-app.surge.sh",
+    "surge": "react-scripts build && surge -p build/",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

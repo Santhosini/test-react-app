@@ -24,7 +24,8 @@ jobs:
         run: npm install --save-dev surge
 
       - name: Surge build
-        run: npm run surge
+        run: npm run surge ./build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+
 
 #     strategy:
 #       matrix:
