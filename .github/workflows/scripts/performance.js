@@ -2,8 +2,6 @@ const puppeteer = require('puppeteer');
 const chromeLauncher = require('chrome-launcher');
 const lighthouse = require('lighthouse');
 const github = require('@actions/github');
-const core = require('@actions/core');
-const fetch = require('node-fetch');
 
 let { payload, actor } = github.context;
 let { number, repository } = payload || {};
@@ -15,8 +13,6 @@ console.log('repo name', repository.name)
 
 // const inputSecret = core.getInput('secret');
 // console.log('inputSecret', inputSecret)
-
-// const reponame = payload.head.repo.name;
 
 const { secret, surgeUrl } = process.env;
 
@@ -44,8 +40,6 @@ const TRACK_STATUS = {
 const TRACK_NEWTWORK_REQUEST = 'network-requests';
 
 const OUR_WIDGET_JS_URL_START = 'https://widget.freshworks.com/widgets/';
-
-// const SITE_URL = 'http://helpwdiegt-performance.surge.sh/';
 
 const SHOW_EXCLUDED_MEASUREMENT_DATA_IN_COMMENT = [
   'excludeNavigationFcp',
@@ -123,10 +117,10 @@ Widget Measurement Report is taken using lighthouse
 }
 
 function createNewComment(comment) {
-  const { data } = octokit.issues.createComment({
-    owner,
-    repo,
-    issue_number: 3,
+  octokit.issues.createComment({
+    owner: actor,
+    repo: repository.name,
+    issue_number: number,
     body: comment,
   }).then(data => console.log('comment added')).catch(err => {
     console.log('octokit issue create comment error', err);
@@ -134,11 +128,11 @@ function createNewComment(comment) {
   });
 }
 
-function updateComment(comment) {
+function updateComment(comment, id) {
   octokit.issues.updateComment({
-    owner,
-    repo,
-    comment_id: 590196289,
+    owner: actor,
+    repo: repository.name,
+    comment_id: id,
     body: comment
   }).then(data => console.log('comment added')).catch(err => {
     console.log('octokit issue create comment error', err);
@@ -148,8 +142,6 @@ function updateComment(comment) {
 
 function postResultComment (comment) {
   const octokit = new github.GitHub(secret);
-  // console.log('test github context', JSON.stringify(github.context, null, 4))
-  // console.log('test github context payload', JSON.stringify(github.context.payload, null, 4))
   octokit.issues.listComments({
     owner: actor,
     repo: repository.name,
@@ -164,21 +156,13 @@ function postResultComment (comment) {
       });
       console.log('filteredData', filteredData)
       console.log('filterdata id', filteredData.id)
+      if(filteredData) {
+        updateComment(comment, id);
+      } else {
+        createNewComment(comment);
+      }
     }
-  }).catch(e => console.log('error listCommentsIssue', e));
-  // if (github.context.payload.pull_request.comments_url && secret) {
-  //   fetch(github.context.payload.pull_request.comments_url, {
-  //     method: 'post',
-  //     body: JSON.stringify({
-  //       body: comment,
-  //     }),
-  //     headers: {
-  //       'content-type': 'application/json',
-  //       authorization: `Bearer ${secret}`,
-  //     },
-  //   }).then(data => console.log('success upload', data)).catch(e => console.log('error listCommentsIssue', e));
-  // }
-  
+  }).catch(e => console.log('error listCommentsIssue', e));  
 }
 
 function getWidgetMetrics(results) {
