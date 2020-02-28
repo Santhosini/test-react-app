@@ -154,10 +154,8 @@ function postResultComment (comment) {
       let filteredData = data.find(comment => {
         return comment.body.indexOf(WIDGET_PERFORMANCE_TITLE) != -1;
       });
-      console.log('filteredData', filteredData)
-      console.log('filterdata id', filteredData.id)
       if(filteredData) {
-        updateComment(comment, id);
+        updateComment(comment, filteredData.id);
       } else {
         createNewComment(comment);
       }
