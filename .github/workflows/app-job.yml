@@ -39,4 +39,4 @@ jobs:
         run: node ./.github/workflows/scripts/performance.js
 
       - name: Surge delete
-        run: surge teardown ${{ secrets.SURGE_DOMAIN }}
+        run: surge teardown ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
