@@ -7,7 +7,7 @@ on:
 
 jobs:
   Metrics:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
@@ -27,7 +27,7 @@ jobs:
         run: npm install -g surge
 
       - name: Surge deploy
-        run: surge build/ test-my-domain.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+        run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
       - name: Performance instalation
         run: npm i puppeteer && npm install lighthouse && npm install @actions/core && npm install @actions/github && npm install node-fetch
@@ -35,7 +35,7 @@ jobs:
       - name: performance
         env:
           secret: ${{ secrets.GIT_TOKEN }}
-          surgeUrl: http://test-my-domain.surge.sh
+          surgeUrl: http://${{ secrets.SURGE_DOMAIN }}
         run: node ./.github/workflows/scripts/performance.js
 
 
