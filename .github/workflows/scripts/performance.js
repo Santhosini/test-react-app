@@ -258,7 +258,6 @@ function getWidgetMetrics(results) {
 }
 
 (async() => {
-  const url = 'http://helpwdiegt-performance.surge.sh';
 
   const chrome = await chromeLauncher.launch({
     port: 9222,
@@ -276,7 +275,7 @@ function getWidgetMetrics(results) {
   };
 
   opts.port = (new URL(browser.wsEndpoint())).port;
-  const result = await lighthouse(url, opts).then(data => data.lhr).catch(e => {
+  const result = await lighthouse(surgeUrl, opts).then(data => data.lhr).catch(e => {
     console.log('lighthouse error:', e);
     process.exit(1);
   });
