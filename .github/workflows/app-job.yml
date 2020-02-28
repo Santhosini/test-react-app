@@ -21,7 +21,7 @@ jobs:
         run: npm install && npm build
 
       - name: Install surge
-        run: npm install --save-dev surge && surge
+        run: npm install -g surge
 
       # - name: Surge deploy
       #   run: npm surge
