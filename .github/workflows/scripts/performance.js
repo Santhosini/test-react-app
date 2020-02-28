@@ -14,6 +14,7 @@ let { number } = payload || {};
 // const reponame = payload.head.repo.name;
 
 const { secret, surgeUrl } = process.env;
+console.log('surgeUrl', surgeUrl);
 
 const WIDGET_PERFORMANCE_TITLE = 'Widget Performance measurement';
 
