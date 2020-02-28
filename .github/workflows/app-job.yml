@@ -20,11 +20,10 @@ jobs:
       - name: Install Dependencies
         run: npm install && npm build
 
-      - name: Install surge
+      - name: Install surge and surge build
         run: npm install --save-dev surge
-
-      - name: Surge build
-        run: surge ./ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+        run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+        
 
 
 #     strategy:
