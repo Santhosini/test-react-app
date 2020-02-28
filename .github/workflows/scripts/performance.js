@@ -6,7 +6,7 @@ const github = require('@actions/github');
 let { payload, actor: owner } = github.context;
 let { number, repository } = payload || {};
 let repoName = repository.name;
-console.log(JSON.stringify(payload, null, 4));
+// console.log(JSON.stringify(payload, null, 4));
 console.log(repository.owner.login);
 
 const { secret, surgeUrl } = process.env;
