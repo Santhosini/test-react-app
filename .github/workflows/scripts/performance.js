@@ -104,6 +104,7 @@ Widget Measurement Report is taken using lighthouse
 }
 
 function createNewComment(comment) {
+  console.log('createNewComment')
   octokit.issues.createComment({
     owner,
     repo: repoName,
@@ -116,6 +117,7 @@ function createNewComment(comment) {
 }
 
 function updateComment(comment, comment_id) {
+  console.log('updateComment')
   octokit.issues.updateComment({
     owner,
     repo: repoName,
@@ -140,11 +142,11 @@ function postResultComment (comment) {
         return comment.body.indexOf(WIDGET_PERFORMANCE_TITLE) != -1;
       });
       if(filteredData) {
-        updateComment(comment, filteredData.id);
-      } else {
-        createNewComment(comment);
+        return updateComment(comment, filteredData.id);
       }
     }
+    console.log('postResultComment')
+    createNewComment(comment);
   }).catch(e => console.log('error listCommentsIssue', e));  
 }
 
@@ -255,7 +257,6 @@ function getWidgetMetrics(results) {
   let metrics = getWidgetMetrics(result);
  
   let comment = createCommentString(metrics);
-  console.log('Comment string');
   console.log(comment);
   postResultComment(comment);
   await browser.close();
