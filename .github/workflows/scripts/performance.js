@@ -7,12 +7,8 @@ let { payload, actor: owner } = github.context;
 let { number, repository } = payload || {};
 let repoName = repository.name;
 
-// const inputSecret = core.getInput('secret');
-// console.log('inputSecret', inputSecret)
-
 const { secret, surgeUrl } = process.env;
 const octokit = new github.GitHub(secret);
-
 
 const WIDGET_PERFORMANCE_TITLE = 'Widget Performance measurement';
 
@@ -84,8 +80,6 @@ function formatBytes(bytes, decimals = 2) {
 
   return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
 }
-
-
 
 function createCommentString(metrics) {
   let { report, totalByteWeights } = metrics;
