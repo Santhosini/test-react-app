@@ -29,6 +29,12 @@ jobs:
       - name: Surge deploy
         run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
+      - name: performance
+        env:
+          secret: ${{ secrets.GIT_TOKEN }}
+          surgeUrl: ${{ secrets.SURGE_DOMAIN }}
+        run: node ./.github/workflows/scripts/performance.js
+
 
 #     strategy:
 #       matrix:
