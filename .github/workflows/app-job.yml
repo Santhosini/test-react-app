@@ -27,10 +27,16 @@ jobs:
         run: npm install -g surge
 
       - name: Surge deploy
+        run: surge build/ test-my-domain.surge.sh --token ${{ secrets.SURGE_TOKEN }}
+
+      - name: Performance instalation
+        run: npm i puppeteer && npm install lighthouse && npm install @actions/core && npm install @actions/github && npm install node-fetch
+
+      - name: performance
         env:
-            secret: ${{ secrets.GIT_TOKEN }}
-            surgeUrl: ${{ secrets.SURGE_DOMAIN }}
-        run: npm i puppeteer && npm install lighthouse && npm install @actions/core && npm install @actions/github && npm install node-fetch && surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }} && node ./.github/workflows/scripts/performance.js
+          secret: ${{ secrets.GIT_TOKEN }}
+          surgeUrl: http://test-my-domain.surge.sh
+        run: node ./.github/workflows/scripts/performance.js
 
 
 #     strategy:
