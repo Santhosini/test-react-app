@@ -125,7 +125,7 @@ function createNewComment(comment) {
     body: comment,
   }).then(data => console.log('comment added')).catch(err => {
     console.log('octokit issue create comment error', err);
-    process.exit(1);
+    process.exit();
   });
 }
 
@@ -137,7 +137,7 @@ function updateComment(comment) {
     body: comment
   }).then(data => console.log('comment added')).catch(err => {
     console.log('octokit issue create comment error', err);
-    process.exit(1);
+    process.exit();
   });
 }
 
@@ -277,7 +277,7 @@ function getWidgetMetrics(results) {
   opts.port = (new URL(browser.wsEndpoint())).port;
   const result = await lighthouse(surgeUrl, opts).then(data => data.lhr).catch(e => {
     console.log('lighthouse error:', e);
-    process.exit(1);
+    process.exit();
   });
   let metrics = getWidgetMetrics(result);
  
