@@ -159,10 +159,11 @@ function postResultComment (comment) {
     let { data } = result;
     console.log('data.length', data.length);
     if (data && data.length) {
-      let filteredData = data.filter(comment => {
+      let filteredData = data.find(comment => {
         return comment.body.indexOf(WIDGET_PERFORMANCE_TITLE) != -1;
       });
       console.log('filteredData', filteredData)
+      console.log('filterdata id', filteredData.id)
     }
   }).catch(e => console.log('error listCommentsIssue', e));
   // if (github.context.payload.pull_request.comments_url && secret) {
