@@ -23,9 +23,9 @@ jobs:
       - name: Install surge
         run: npm install -g surge
 
-      # - name: Surge deploy
+      - name: Surge deploy
       #   run: npm surge
-        # run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+        run: surge build/ ${{ secrets.SURGE_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
 
 #     strategy:
